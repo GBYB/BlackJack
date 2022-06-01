@@ -2,8 +2,17 @@
   height: 100vh;
   background: green;
 }
+.container .action {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 .container #title {
   padding: 5%;
   margin: 0;
   text-align: center;
+}
+.container .dealer .card {
+  height: 100px;
+  background-color: yellow;
 }/*# sourceMappingURL=index.css.map */

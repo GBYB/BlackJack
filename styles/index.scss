@@ -1,9 +1,20 @@
 .container {
   height: 100vh;
   background: green;
+  .action {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
   #title {
     padding: 5%;
     margin: 0;
     text-align: center;
+  }
+  .dealer {
+    .card {
+      height: 100px;
+      background-color: yellow;
+    }
   }
 }

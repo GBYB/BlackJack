@@ -6,7 +6,7 @@ function blackjack() {
   const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   const suits = ["spades", "hearts", "diamonds", "clubs"];
   let face_cards = "";
-  for (let i = 1; i <= 52; i++) {
+  for (let i = 0; i < 52; i++) {
     if (i < 13) {
       if (i % 13 == 0) {
         face_cards = "Ace";
@@ -79,8 +79,26 @@ function blackjack() {
 }
 
 function Start() {
-  getCard(card);
   // Deal the cards
+
+  let node = document.createElement("h2");
+  node.innerText = "Player:";
+  document.getElementsByClassName("deck")[0].appendChild(node);
+  node = document.createElement("h2");
+  node.innerText = "Dealer";
+  document.getElementsByClassName("dealer")[0].appendChild(node);
+  playerDraw();
+  dealerDraw();
+  playerDraw();
+  dealerDraw();
+  // setTimeout(dealerDraw(), 2000);
+  // setTimeout(playerDraw(), 2000);
+  // setTimeout(dealerDraw(), 2000);
+
+  console.log("player", player);
+  console.log("dealer", dealer);
+  console.log(card_deck);
+
   // Show the cards
   // Check for blackjack
   // Check for bust
@@ -92,28 +110,26 @@ function hit() {}
 function stand() {}
 function bust() {}
 
-function getCard() {
-  let card = Math.random() * (card_deck.length - 1) + 1;
+// A Player Draws
+function playerDraw() {
+  let card = parseInt(Math.random() * (card_deck.length - 1) + 1);
+  player.push(card_deck[card]);
+  card_deck.splice(card, 1);
 
-  card_deck = card_deck.splice(card, 1);
-  // let suit = "";
-  let value = "";
-  // if (card < 13) {
-  //   suit = "spades";
-  // } else if (card < 26) {
-  //   suit = "hearts";
-  // } else if (card < 39) {
-  //   suit = "diamonds";
-  // } else {
-  //   suit = "clubs";
-  // }
-  if (card % 13 == 0) {
-    value = "king";
-  } else if (card % 12 == 0) {
-    value = "Queen";
-  } else if (card % 11 == 0) {
-    value = "Jack";
-  } else {
-    value = card % 13;
-  }
+  let node = document.createElement("div");
+  node.innerText = card_deck[card];
+  node.className = "card";
+  document.getElementsByClassName("dealer")[0].appendChild(node);
+}
+
+// The Dealer Draws
+function dealerDraw() {
+  let card = parseInt(Math.random() * (card_deck.length - 1) + 1);
+  dealer.push(card_deck[card]);
+  card_deck.splice(card, 1);
+
+  let node = document.createElement("div");
+  node.innerText = card_deck[card];
+  node.className = "card";
+  document.getElementsByClassName("deck")[0].appendChild(node);
 }
