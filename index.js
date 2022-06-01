@@ -74,31 +74,41 @@ function blackjack() {
     }
   }
   console.log(card_deck);
-
-  // const players = [dealer, player1];
 }
 
 function Start() {
   // Deal the cards
-
   let node = document.createElement("h2");
-  node.innerText = "Player:";
-  document.getElementsByClassName("deck")[0].appendChild(node);
+  node.innerText = "Player";
+  document.getElementsByClassName("player")[0].prepend(node);
   node = document.createElement("h2");
   node.innerText = "Dealer";
-  document.getElementsByClassName("dealer")[0].appendChild(node);
-  playerDraw();
-  dealerDraw();
-  playerDraw();
-  dealerDraw();
+  document.getElementsByClassName("dealer")[0].prepend(node);
+  // add animation + delay for each card handed out
   // setTimeout(dealerDraw(), 2000);
   // setTimeout(playerDraw(), 2000);
   // setTimeout(dealerDraw(), 2000);
+  playerDraw();
+  dealerDraw();
+  playerDraw();
+  dealerDraw();
+  document.getElementById("start").remove();
+
+  node = document.createElement("button");
+  node.innerText = "Stand";
+  node.onclick = stand;
+
+  document.getElementsByClassName("action")[0].appendChild(node);
+
+  node = document.createElement("button");
+  node.innerText = "Hit";
+  node.onclick = hit;
+
+  document.getElementsByClassName("action")[0].appendChild(node);
 
   console.log("player", player);
   console.log("dealer", dealer);
   console.log(card_deck);
-
   // Show the cards
   // Check for blackjack
   // Check for bust
@@ -106,30 +116,40 @@ function Start() {
   // Check for winner
 }
 function deal() {}
-function hit() {}
-function stand() {}
+
+// A Player Hits
+function hit() {
+  console.log("hit");
+}
+
+// A Player Stands
+function stand() {
+  console.log("stand");
+}
 function bust() {}
 
 // A Player Draws
 function playerDraw() {
   let card = parseInt(Math.random() * (card_deck.length - 1) + 1);
-  player.push(card_deck[card]);
+  let val = card_deck[card];
+  player.push(val);
   card_deck.splice(card, 1);
 
   let node = document.createElement("div");
-  node.innerText = card_deck[card];
-  node.className = "card";
-  document.getElementsByClassName("dealer")[0].appendChild(node);
+  node.innerText = val;
+  node.className = "player__deck__card";
+  document.getElementsByClassName("player__deck")[0].appendChild(node);
 }
 
 // The Dealer Draws
 function dealerDraw() {
   let card = parseInt(Math.random() * (card_deck.length - 1) + 1);
-  dealer.push(card_deck[card]);
+  let val = card_deck[card];
+  dealer.push(val);
   card_deck.splice(card, 1);
 
   let node = document.createElement("div");
-  node.innerText = card_deck[card];
-  node.className = "card";
-  document.getElementsByClassName("deck")[0].appendChild(node);
+  node.innerText = val;
+  node.className = "dealer__deck__card";
+  document.getElementsByClassName("dealer__deck")[0].appendChild(node);
 }
