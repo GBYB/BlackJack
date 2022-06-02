@@ -20,7 +20,6 @@
   background-color: #800000;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 .container .dealer__deck {
@@ -45,7 +44,6 @@
   background-color: #800000;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 .container .player__deck {
