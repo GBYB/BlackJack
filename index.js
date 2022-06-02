@@ -2,7 +2,7 @@ const card_deck = [];
 const player = [];
 const dealer = [];
 // Create card deck
-function blackjack() {
+function cards() {
   let card_deck_saved = [];
   const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   const suits = ["spades", "hearts", "diamonds", "clubs"];
@@ -83,7 +83,7 @@ function blackjack() {
 
 // Start the Game
 function start() {
-  let newDeck = blackjack();
+  let newDeck = cards();
 
   for (let i = 0; i < newDeck.length; i++) {
     card_deck.push(newDeck[i]);
@@ -130,9 +130,39 @@ function start() {
   dealerDraw(false);
   // Show score
   let scoreP = score(player);
+  let scoreD = score(dealer);
   node = document.getElementById("scoreP");
   node.innerText = "Card Total:" + scoreP;
-  node.id = "scoreP";
+
+  // Check for natural blackjack
+  if (scoreD == scoreP && scoreD == 21) {
+    node = document.createElement("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+    node.id = "scoreD";
+    document.getElementsByClassName("dealer")[0].prepend(node);
+
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+    tie();
+  } else if (scoreD == 21) {
+    node = document.createElement("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+    node.id = "scoreD";
+    document.getElementsByClassName("dealer")[0].prepend(node);
+
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+    blackjack("dealer");
+  } else if (scoreP == 21) {
+    node = document.createElement("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+    node.id = "scoreD";
+    document.getElementsByClassName("dealer")[0].prepend(node);
+
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+    blackjack("player");
+  }
   // let scoreP = score();
   // while (scoreP > 21) {
   //   document.getElementsByClassName("player__deck__card")[0].remove();
@@ -150,11 +180,6 @@ function start() {
   console.log("player", player);
   console.log("dealer", dealer);
   console.log(card_deck);
-  // Show the cards
-  // Check for blackjack
-  // Check for bust
-  // Check for 21
-  // Check for winner
 }
 
 // Score of a Player
@@ -189,28 +214,88 @@ function hit() {
   playerDraw();
   console.log(card_deck);
   let scoreP = score(player);
-  node = document.getElementById("scoreP");
+  let node = document.getElementById("scoreP");
   node.innerText = "Card Total:" + scoreP;
-  node.id = "scoreP";
+
+  // Check for bust
   if (scoreP > 21) {
-    bust();
+    scoreD = score(dealer);
+
+    node = document.createElement("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+    node.id = "scoreD";
+    document.getElementsByClassName("dealer")[0].prepend(node);
+
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+
+    bust("player");
+  } else if (scoreP == 21) {
+    // Check for BlackJack
+    node = document.createElement("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+    node.id = "scoreD";
+    document.getElementsByClassName("dealer")[0].prepend(node);
+
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+    blackjack("player");
   }
 }
 // A Player Stands
 function stand() {
   console.log("stand");
+
+  let scoreD = score(dealer);
+
+  let node = document.createElement("scoreD");
+  node.innerText = "Card Total:" + scoreD;
+  node.id = "scoreD";
+  document.getElementsByClassName("dealer")[0].prepend(node);
+
+  node = document.getElementsByClassName("dealer__deck__card")[1];
+  node.innerText = dealer[1];
+
+  while (scoreD < 17) {
+    dealerDraw(true);
+    scoreD = score(dealer);
+    node = document.getElementById("scoreD");
+    node.innerText = "Card Total:" + scoreD;
+  }
+  scoreP = score(player);
+  // Check for bust
+  if (scoreD > 21) {
+    bust("dealer");
+  } else if (scoreD == 21) {
+    // Check for BlackJack
+    node = document.getElementsByClassName("dealer__deck__card")[1];
+    node.innerText = dealer[1];
+    blackjack("dealer");
+  }
+  // Check for winner
+  else if (scoreD > scoreP) {
+    lose();
+  } else if (scoreP > scoreD) {
+    win();
+  } else {
+    tie();
+  }
+  console.log("dealer score", scoreD);
+  console.log("player score", scoreP);
 }
 
 // A Player Busts his Cards
-function bust() {
+function bust(user) {
   console.log("busted");
   document.getElementById("hit").remove();
   document.getElementById("stand").remove();
 
-  let node = document.getElementsByClassName("dealer__deck__card")[1];
-  node.innerText = dealer[1];
-  node = document.createElement("h2");
-  node.innerText = "Busted!";
+  let node = document.createElement("h2");
+  if (user == "player") {
+    node.innerText = "Busted! You lose";
+  } else {
+    node.innerText = "The Dealer is Busted! You win";
+  }
   node.id = "result";
   document.getElementsByClassName("result")[0].appendChild(node);
 
@@ -222,6 +307,82 @@ function bust() {
   document.getElementsByClassName("action")[0].appendChild(node);
 }
 
+// the game reaches a loss
+function lose() {
+  console.log("lose");
+  document.getElementById("hit").remove();
+  document.getElementById("stand").remove();
+
+  node = document.createElement("h2");
+  node.innerText = "The Dealer Wins!";
+  node.id = "result";
+  document.getElementsByClassName("result")[0].appendChild(node);
+
+  node = document.createElement("button");
+  node.innerText = "Try again";
+  node.id = "restart";
+
+  node.onclick = restart;
+  document.getElementsByClassName("action")[0].appendChild(node);
+}
+
+// the game reaches a win
+function win() {
+  console.log("win");
+  document.getElementById("hit").remove();
+  document.getElementById("stand").remove();
+
+  node = document.createElement("h2");
+  node.innerText = "You Win!";
+  node.id = "result";
+  document.getElementsByClassName("result")[0].appendChild(node);
+
+  node = document.createElement("button");
+  node.innerText = "Try again";
+  node.id = "restart";
+
+  node.onclick = restart;
+  document.getElementsByClassName("action")[0].appendChild(node);
+}
+
+// the game reaches a tie
+function tie() {
+  console.log("tie");
+  document.getElementById("hit").remove();
+  document.getElementById("stand").remove();
+
+  node = document.createElement("h2");
+  node.innerText = "Tie, better luck next time";
+  node.id = "result";
+  document.getElementsByClassName("result")[0].appendChild(node);
+
+  node = document.createElement("button");
+  node.innerText = "Try again";
+  node.id = "restart";
+
+  node.onclick = restart;
+  document.getElementsByClassName("action")[0].appendChild(node);
+}
+
+// Game reaches a BlackJack
+function blackjack(user) {
+  console.log("tie");
+  document.getElementById("hit").remove();
+  document.getElementById("stand").remove();
+
+  node = document.createElement("h2");
+  if (user == "player") node.innerText = "BlackJack!";
+  else node.innerText = "Dealer Wins BlackJack!";
+  node.id = "result";
+  document.getElementsByClassName("result")[0].appendChild(node);
+
+  node = document.createElement("button");
+  node.innerText = "Try again";
+  node.id = "restart";
+
+  node.onclick = restart;
+  document.getElementsByClassName("action")[0].appendChild(node);
+}
 function restart() {
   // Clear playground
 
@@ -258,6 +419,7 @@ function restart() {
   node.className = "dealer__deck";
   document.getElementsByClassName("dealer")[0].appendChild(node);
 
+  document.getElementById("scoreD").remove();
   document.getElementById("scoreP").remove();
   document.getElementById("result").remove();
 
