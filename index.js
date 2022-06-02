@@ -91,7 +91,7 @@ function start() {
   // Setup playground
   let node = document.createElement("h4");
   node.innerText = "Card Total:" + 0;
-  node.id = "score";
+  node.id = "scoreP";
   document.getElementsByClassName("player")[0].prepend(node);
   node = document.createElement("h2");
   node.id = "player";
@@ -129,7 +129,10 @@ function start() {
   playerDraw();
   dealerDraw(false);
   // Show score
-  score();
+  let scoreP = score(player);
+  node = document.getElementById("scoreP");
+  node.innerText = "Card Total:" + scoreP;
+  node.id = "scoreP";
   // let scoreP = score();
   // while (scoreP > 21) {
   //   document.getElementsByClassName("player__deck__card")[0].remove();
@@ -155,7 +158,7 @@ function start() {
 }
 
 // Score of a Player
-function score() {
+function score(player) {
   let score = 0;
   for (let i = 0; i < player.length; i++) {
     if (
@@ -178,9 +181,6 @@ function score() {
     }
   }
 
-  let node = document.getElementById("score");
-  node.innerText = "Card Total:" + score;
-  node.id = "score";
   return score;
 }
 // A Player Hits
@@ -188,7 +188,10 @@ function hit() {
   console.log("hit");
   playerDraw();
   console.log(card_deck);
-  let scoreP = score();
+  let scoreP = score(player);
+  node = document.getElementById("scoreP");
+  node.innerText = "Card Total:" + scoreP;
+  node.id = "scoreP";
   if (scoreP > 21) {
     bust();
   }
@@ -255,7 +258,7 @@ function restart() {
   node.className = "dealer__deck";
   document.getElementsByClassName("dealer")[0].appendChild(node);
 
-  document.getElementById("score").remove();
+  document.getElementById("scoreP").remove();
   document.getElementById("result").remove();
 
   // Clear Scores and Cards
