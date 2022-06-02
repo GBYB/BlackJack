@@ -1,8 +1,8 @@
 const card_deck = [];
 const player = [];
 const dealer = [];
+// Create card deck
 function blackjack() {
-  // Create the card deck
   let card_deck_saved = [];
   const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   const suits = ["spades", "hearts", "diamonds", "clubs"];
@@ -81,6 +81,7 @@ function blackjack() {
   return card_deck_saved;
 }
 
+// Start the Game
 function start() {
   let newDeck = blackjack();
 
@@ -153,6 +154,7 @@ function start() {
   // Check for winner
 }
 
+// Score of a Player
 function score() {
   let score = 0;
   for (let i = 0; i < player.length; i++) {
@@ -195,6 +197,8 @@ function hit() {
 function stand() {
   console.log("stand");
 }
+
+// A Player Busts his Cards
 function bust() {
   console.log("busted");
   document.getElementById("hit").remove();
