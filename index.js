@@ -77,34 +77,44 @@ function blackjack() {
 }
 
 function Start() {
-  // Deal the cards
-  let node = document.createElement("h2");
+  // Setup playground
+  let node = document.createElement("h4");
+  node.innerText = "Card Total:" + 0;
+  node.id = "score";
+  document.getElementsByClassName("player")[0].prepend(node);
+  node = document.createElement("h2");
   node.innerText = "Player";
   document.getElementsByClassName("player")[0].prepend(node);
   node = document.createElement("h2");
   node.innerText = "Dealer";
   document.getElementsByClassName("dealer")[0].prepend(node);
-  // add animation + delay for each card handed out
-  // setTimeout(dealerDraw(), 2000);
-  // setTimeout(playerDraw(), 2000);
-  // setTimeout(dealerDraw(), 2000);
-  playerDraw();
-  dealerDraw();
-  playerDraw();
-  dealerDraw();
+
   document.getElementById("start").remove();
 
   node = document.createElement("button");
   node.innerText = "Stand";
   node.onclick = stand;
-
   document.getElementsByClassName("action")[0].appendChild(node);
 
   node = document.createElement("button");
   node.innerText = "Hit";
   node.onclick = hit;
-
   document.getElementsByClassName("action")[0].appendChild(node);
+
+  // add animation + delay for each card handed out
+  // setTimeout(dealerDraw(), 2000);
+  // setTimeout(playerDraw(), 2000);
+  // setTimeout(dealerDraw(), 2000);
+
+  // Deal the cards
+  playerDraw();
+  dealerDraw();
+  playerDraw();
+  dealerDraw();
+  // Show score
+  score();
+
+  //
 
   console.log("player", player);
   console.log("dealer", dealer);
@@ -120,8 +130,37 @@ function deal() {}
 // A Player Hits
 function hit() {
   console.log("hit");
+  playerDraw();
+  score();
 }
 
+function score() {
+  let score = 0;
+  for (let i = 0; i < player.length; i++) {
+    if (
+      player[i].includes("King") ||
+      player[i].includes("Queen") ||
+      player[i].includes("Jack")
+    ) {
+      console.log(player[i]);
+      score += 11;
+    } else if (!player[i].includes("Ace")) {
+      let num = player[i].substring(0, 2).trim();
+      score += parseInt(num);
+      console.log(score);
+    }
+  }
+  for (let i = 0; i < player.length; i++) {
+    if (player[i].includes("Ace")) {
+      if (score <= 11) score += 10;
+      else if (score > 11) score += 1;
+    }
+  }
+
+  let node = document.getElementById("score");
+  node.innerText = "Card Total:" + score;
+  return score;
+}
 // A Player Stands
 function stand() {
   console.log("stand");

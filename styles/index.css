@@ -33,8 +33,9 @@
 .container .dealer__deck__card {
   height: 100%;
   width: 20%;
-  padding: 5%;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
   align-items: center;
   background-color: white;
 }
@@ -57,8 +58,9 @@
 .container .player__deck__card {
   height: 100%;
   width: 20%;
-  padding: 5%;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
   align-items: center;
   background-color: white;
 }/*# sourceMappingURL=index.css.map */
