@@ -141,7 +141,6 @@ function start() {
   //   scoreP = score();
   //   console.log("removing");
   // }
-
   //
 
   console.log("player", player);
@@ -152,18 +151,6 @@ function start() {
   // Check for bust
   // Check for 21
   // Check for winner
-}
-function deal() {}
-
-// A Player Hits
-function hit() {
-  console.log("hit");
-  playerDraw();
-  console.log(card_deck);
-  let scoreP = score();
-  if (scoreP > 21) {
-    bust();
-  }
 }
 
 function score() {
@@ -194,6 +181,16 @@ function score() {
   node.id = "score";
   return score;
 }
+// A Player Hits
+function hit() {
+  console.log("hit");
+  playerDraw();
+  console.log(card_deck);
+  let scoreP = score();
+  if (scoreP > 21) {
+    bust();
+  }
+}
 // A Player Stands
 function stand() {
   console.log("stand");
@@ -205,9 +202,9 @@ function bust() {
 
   let node = document.getElementsByClassName("dealer__deck__card")[1];
   node.innerText = dealer[1];
-  node = document.createElement("h4");
+  node = document.createElement("h2");
   node.innerText = "Busted!";
-  node.id = "busted";
+  node.id = "result";
   document.getElementsByClassName("result")[0].appendChild(node);
 
   node = document.createElement("button");
@@ -255,10 +252,11 @@ function restart() {
   document.getElementsByClassName("dealer")[0].appendChild(node);
 
   document.getElementById("score").remove();
-  document.getElementById("busted").remove();
+  document.getElementById("result").remove();
 
-  player.splice(0, 2);
-  dealer.splice(0, 2);
+  // Clear Scores and Cards
+  player.splice(0, player.length);
+  dealer.splice(0, dealer.length);
 
   card_deck.splice(0, card_deck.length);
 }

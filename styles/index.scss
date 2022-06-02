@@ -49,4 +49,7 @@
   .player {
     @include deck;
   }
+  .result {
+    text-align: center;
+  }
 }
