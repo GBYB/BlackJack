@@ -232,6 +232,8 @@ function hit() {
     bust("player");
   } else if (scoreP == 21) {
     // Check for BlackJack
+    scoreD = score(dealer);
+
     node = document.createElement("scoreD");
     node.innerText = "Card Total:" + scoreD;
     node.id = "scoreD";
